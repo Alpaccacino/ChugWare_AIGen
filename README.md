@@ -44,6 +44,54 @@ A comprehensive contest management system for drinking competitions, ported from
    ./chugware.exe
    ```
 
+### Cross-Platform Compilation
+
+ChugWare compiles and runs natively on Windows, Linux, and macOS. Fyne requires a C compiler (CGO) on the **host** machine. For building on a machine that matches the target OS, use the commands below.
+
+> **Note:** Cross-compiling Fyne to a *different* OS from your host requires a matching C cross-toolchain (e.g. `mingw-w64` to build Windows binaries on Linux). Native compilation on each platform is recommended for simplicity.
+
+#### Windows
+```powershell
+go build -o chugware.exe ./cmd/main.go
+```
+
+#### Linux
+```bash
+go build -o chugware ./cmd/main.go
+```
+
+#### macOS
+```bash
+go build -o chugware ./cmd/main.go
+```
+
+#### Cross-compile for Windows from Linux (requires `mingw-w64`)
+```bash
+CGO_ENABLED=1 GOOS=windows GOARCH=amd64 CC=x86_64-w64-mingw32-gcc \
+  go build -o chugware.exe ./cmd/main.go
+```
+
+#### Cross-compile for Linux from Windows (requires WSL or a Linux cross-toolchain)
+```bash
+# Run inside WSL or a Linux environment
+CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o chugware ./cmd/main.go
+```
+
+#### Build for all platforms using `fyne-cross` (easiest cross-compilation option)
+```bash
+# Install fyne-cross
+go install github.com/fyne-io/fyne-cross@latest
+
+# Build for Windows
+fyne-cross windows -arch=amd64
+
+# Build for Linux
+fyne-cross linux -arch=amd64
+
+# Build for macOS
+fyne-cross darwin -arch=amd64
+```
+
 ## Usage
 
 ### Getting Started
@@ -115,6 +163,25 @@ All contest data is stored in JSON format for easy manipulation and backup:
 - **Data Layer**: JSON file-based persistence
 - **Timing**: High-precision contest timing with millisecond accuracy
 - **Configuration**: JSON-based settings management
+- **External Clock**: Cross-platform serial/USB timing interface via `go.bug.st/serial`
+
+### External Equipment (Serial / USB Clock Interface)
+
+ChugWare can receive time data from an external timing device connected via a serial or USB-to-serial adapter. The implementation uses [`go.bug.st/serial`](https://github.com/bugst/go-serial) — a pure Go, OS-independent library that talks directly to the OS driver with no third-party tools (such as minicom) required.
+
+| Operating System | Typical Port Format |
+|---|---|
+| Windows | `COM3`, `COM4`, … |
+| Linux | `/dev/ttyUSB0`, `/dev/ttyACM0`, … |
+| macOS | `/dev/tty.usbserial-xxxx`, `/dev/tty.usbmodem-xxxx`, … |
+
+**Setup in Configuration window:**
+1. Enter the port name for your platform (e.g. `COM3` on Windows, `/dev/ttyUSB0` on Linux).
+2. Select the matching baud rate.
+3. Click **Connect** — a green checkmark confirms the connection.
+4. Click **View Logs** to see raw lines received from the device.
+
+In the **Chug Manager**, click **Use External Clock** before starting a run. Instead of the internal timer, the display will update with each time value received from the device. When Stop is pressed the last received time is used as the base time, and the normal result workflow proceeds.
 
 ### Key Components
 
@@ -128,6 +195,7 @@ All contest data is stored in JSON format for easy manipulation and backup:
 ### Dependencies
 
 - **Fyne v2**: Cross-platform GUI framework
+- **go.bug.st/serial**: Cross-platform serial/USB port library (Windows, Linux, macOS)
 - **Go Standard Library**: Core functionality
 
 ## Original Application
