@@ -1,0 +1,394 @@
+[
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Anders Svensson",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Axel Ungern",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Beata Vallgren",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Björn Olsson",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Carl Wickström",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "1",
+    "name": "Cecilia Törnqvist",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Diana Ystad",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Elsa Åkesson",
+    "program": "K",
+    "team": "Kemiterna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Emma Johansson",
+    "program": "K",
+    "team": "Kemiterna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Erik Andersson",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Filip Öberg",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Fredrik Ulfsson",
+    "program": "K",
+    "team": "Kemiterna"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "1",
+    "name": "Gabriella Ödman",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Gustav Mattsson",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Helena Nilsson",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Henrik Abrahamsson",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Ida Bengtsson",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Ingrid Fredriksson",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Jakob Claesson",
+    "program": "K",
+    "team": "Kemiterna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Johan Qvist",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Karin Hansson",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Klara Dahlberg",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Kristina Rydberg",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Lars Eriksson",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "1",
+    "name": "Lena Larsson",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Ludvig Engström",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Magnus Carlsson",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Maja Falk",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Maria Persson",
+    "program": "K",
+    "team": "Kemiterna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Niklas Grahn",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Nils Isaksson",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "1",
+    "name": "Olivia Holm",
+    "program": "K",
+    "team": "Kemiterna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Olof Gustafsson",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Per Karlsson",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Pontus Jansson",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Rebecka Kraft",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Sebastian Lind",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "1",
+    "name": "Sofia Danielsson",
+    "program": "K",
+    "team": "Kemiterna"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Therese Malmberg",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Ulf Nord",
+    "program": "K",
+    "team": "Kemiterna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Vera Palmqvist",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Viktoria Vang",
+    "program": "F",
+    "team": "Fysikerna"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "1",
+    "name": "Werner Quisling",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Wilhelm Wallin",
+    "program": "M",
+    "team": "Mek"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Xenia Rönn",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "2",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Ylva Åberg",
+    "program": "E",
+    "team": "EWU"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Yngve Strand",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "2",
+    "half_tankard": "2",
+    "name": "Zacharias Zetterberg",
+    "program": "D",
+    "team": "Delta"
+  },
+  {
+    "bottle": "3",
+    "full_tankard": "1",
+    "half_tankard": "2",
+    "name": "Zelda Tunberg",
+    "program": "K",
+    "team": "Kemiterna"
+  }
+]
