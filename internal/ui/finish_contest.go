@@ -95,7 +95,8 @@ func (fc *FinishContest) initializeManagers() {
 
 // setupUI initializes the contest finalization UI
 func (fc *FinishContest) setupUI() {
-	fc.window.Resize(fyne.NewSize(1600, 1000))
+	fc.window.Resize(fyne.NewSize(1200, 750))
+	fc.window.CenterOnScreen()
 	fc.window.SetFixedSize(false)
 
 	// Initialize components
@@ -403,8 +404,8 @@ func (fc *FinishContest) createLayout() fyne.CanvasObject {
 	)
 	disciplineTabs.SetTabLocation(container.TabLocationTop)
 
-	// Main layout
-	mainLayout := container.NewHSplit(leftPanel, disciplineTabs)
+	// Main layout – left panel wrapped in scroll so it is reachable on small screens
+	mainLayout := container.NewHSplit(container.NewScroll(leftPanel), disciplineTabs)
 	mainLayout.SetOffset(0.20)
 	return mainLayout
 }
@@ -643,7 +644,7 @@ func (fc *FinishContest) generateReport() {
 		fc.window.Canvas(),
 	)
 
-	reportDialog.Resize(fyne.NewSize(1400, 900))
+	reportDialog.Resize(fyne.NewSize(900, 620))
 	reportDialog.Show()
 }
 

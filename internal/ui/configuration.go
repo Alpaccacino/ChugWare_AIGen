@@ -83,7 +83,7 @@ func NewConfigurationWindow(app fyne.App) *ConfigurationWindow {
 
 // setupUI initializes the configuration UI
 func (cw *ConfigurationWindow) setupUI() {
-	cw.window.Resize(fyne.NewSize(1600, 1200))
+	cw.window.Resize(fyne.NewSize(1100, 750))
 	cw.window.CenterOnScreen()
 	cw.window.SetFixedSize(false)
 

@@ -78,7 +78,7 @@ func (pm *ParticipantManagerUI) initializeManagers() {
 
 // setupUI initializes the participant manager UI
 func (pm *ParticipantManagerUI) setupUI() {
-	pm.window.Resize(fyne.NewSize(1000, 700))
+	pm.window.Resize(fyne.NewSize(960, 680))
 	pm.window.CenterOnScreen()
 	pm.window.SetFixedSize(false)
 
@@ -262,9 +262,9 @@ func (pm *ParticipantManagerUI) createLayout() fyne.CanvasObject {
 	)
 	rightTabs.SetTabLocation(container.TabLocationTop)
 
-	// Main layout
+	// Main layout – left panel wrapped in scroll so it is reachable on small screens
 	leftPanel := container.NewVBox(form, statusCard)
-	mainLayout := container.NewHSplit(leftPanel, rightTabs)
+	mainLayout := container.NewHSplit(container.NewScroll(leftPanel), rightTabs)
 	return mainLayout
 }
 

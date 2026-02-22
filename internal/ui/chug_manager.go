@@ -64,23 +64,23 @@ type ChugManager struct {
 	commentEntry        *widget.Entry
 
 	// Status action buttons
-	passBtn        *widget.Button
-	dqMeasureBtn   *widget.Button
-	calcTimeBtn    *widget.Button
+	passBtn      *widget.Button
+	dqMeasureBtn *widget.Button
+	calcTimeBtn  *widget.Button
 
 	// UI Components - Actions
-	approveBtn       *widget.Button
-	disqualifyBtn    *widget.Button
-	skipBtn          *widget.Button
-	clearSkippedBtn  *widget.Button
-	loadChuggerBtn   *widget.Button
-	loadFromListBtn  *widget.Button
+	approveBtn      *widget.Button
+	disqualifyBtn   *widget.Button
+	skipBtn         *widget.Button
+	clearSkippedBtn *widget.Button
+	loadChuggerBtn  *widget.Button
+	loadFromListBtn *widget.Button
 
 	// Result entry status
-	statusSelect     *widget.Select
+	statusSelect *widget.Select
 
 	// Locks the Time field after Calculate Final Time is clicked
-	lockedTimeValue  string
+	lockedTimeValue string
 
 	// External clock mode
 	useExternalClock    bool
@@ -88,15 +88,15 @@ type ChugManager struct {
 	extClockStopChan    chan struct{}
 	lastExternalTime    string
 
-	availableParticipants       []models.Participant
-	allParticipants             []models.Participant
-	skippedParticipants         []models.Participant
-	contestQueue                []models.Participant
-	currentChugger              *models.Participant
-	currentResult               *models.Result
-	
+	availableParticipants []models.Participant
+	allParticipants       []models.Participant
+	skippedParticipants   []models.Participant
+	contestQueue          []models.Participant
+	currentChugger        *models.Participant
+	currentResult         *models.Result
+
 	// Track selected items in lists
-	availableListSelected       widget.ListItemID
+	availableListSelected widget.ListItemID
 	// Track selected items in lists
 	allParticipantsListSelected widget.ListItemID
 }
@@ -123,7 +123,8 @@ func (cm *ChugManager) initializeManagers() {
 
 // setupUI initializes the chug manager UI
 func (cm *ChugManager) setupUI() {
-	cm.window.Resize(fyne.NewSize(1200, 800))
+	cm.window.Resize(fyne.NewSize(1100, 750))
+	cm.window.CenterOnScreen()
 	cm.window.SetFixedSize(false)
 
 	// Initialize components
@@ -178,6 +179,7 @@ func (cm *ChugManager) createTimerComponents() {
 	cm.startBtn.Disable()
 	cm.stopBtn.Disable()
 }
+
 // createListComponents creates the participant list components
 func (cm *ChugManager) createListComponents() {
 	// Available participants list (filtered by discipline)
@@ -462,8 +464,8 @@ func (cm *ChugManager) createLayout() fyne.CanvasObject {
 		currentChuggerAndResultCard,
 	)
 
-	// Main layout
-	mainContainer := container.NewHSplit(leftPanel, participantTabs)
+	// Main layout – left panel wrapped in scroll so it is reachable on small screens
+	mainContainer := container.NewHSplit(container.NewScroll(leftPanel), participantTabs)
 	mainContainer.SetOffset(0.4)
 	return mainContainer
 }
@@ -719,12 +721,12 @@ func (cm *ChugManager) disqualifyParticipant() {
 		dialog.ShowError(fmt.Errorf("no participant loaded"), cm.window)
 		return
 	}
-	
+
 	if err := cm.validateAndSaveResult(models.StatusDisqualified); err != nil {
 		dialog.ShowError(err, cm.window)
 		return
 	}
-	
+
 	dialog.ShowInformation("Disqualified", fmt.Sprintf("%s disqualified", cm.currentChugger.Name), cm.window)
 	cm.moveToNextParticipant()
 }
@@ -1117,11 +1119,11 @@ func (cm *ChugManager) loadData() {
 			}
 
 			cm.allParticipants = cm.participantMgr.GetParticipants()
-			
+
 			sort.Slice(cm.allParticipants, func(i, j int) bool {
 				return cm.allParticipants[i].Name < cm.allParticipants[j].Name
 			})
-			
+
 			cm.loadAvailableParticipants()
 		}
 	} else {
@@ -1152,17 +1154,17 @@ func (cm *ChugManager) loadData() {
 
 func (cm *ChugManager) loadAvailableParticipants() {
 	discipline := cm.disciplineSelect.Selected
-	
+
 	// Create available participants list based on discipline
 	var participantsForDiscipline []models.Participant
-	
+
 	// Start with all participants
 	allParticipants := cm.allParticipants
-	
+
 	for _, p := range allParticipants {
 		// Simple filter logic - if it has a valid value for the discipline, include it
 		include := false
-		
+
 		switch discipline {
 		case "Bottle":
 			if p.Bottle != "" && p.Bottle != "0" {
@@ -1177,18 +1179,18 @@ func (cm *ChugManager) loadAvailableParticipants() {
 				include = true
 			}
 		}
-		
+
 		if include {
 			// Check if already has a result for this discipline
 			hasResult := false
 			// This would require checking results, for now we just show all eligible
-			
+
 			if !hasResult {
 				participantsForDiscipline = append(participantsForDiscipline, p)
 			}
 		}
 	}
-	
+
 	cm.availableParticipants = participantsForDiscipline
 
 	// Sort by most remaining tries descending so the next chugger loaded is always
@@ -1219,5 +1221,3 @@ func (cm *ChugManager) loadAvailableParticipants() {
 func (cm *ChugManager) Show() {
 	cm.window.Show()
 }
-
-
