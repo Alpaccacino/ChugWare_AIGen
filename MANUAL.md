@@ -34,6 +34,10 @@ Version 1.0.0 · Last updated 2026-02-22
 10. [Time Format Reference](#10-time-format-reference)
 11. [Keyboard / Workflow Quick-Reference](#11-keyboard--workflow-quick-reference)
 12. [HTML Contest Browser (`htmlgen`)](#12-html-contest-browser-htmlgen)
+13. [Installation & Desktop Shortcut](#13-installation--desktop-shortcut)
+    - 13.1 [Windows](#131-windows)
+    - 13.2 [Linux](#132-linux)
+    - 13.3 [macOS](#133-macos)
 
 ---
 
@@ -705,3 +709,161 @@ Within each discipline tab:
 - **Pass** results are ranked by final time, fastest first (rank 1 = winner).
 - **DQ** results appear at the bottom of the table, unranked.
 - Top 3 places receive 🥇 🥈 🥉 medal icons.
+
+---
+
+## 13. Installation & Desktop Shortcut
+
+After building with `build.ps1` you have two executables:
+
+| File | Purpose |
+|---|---|
+| `ChugWare2.exe` | Main GUI application |
+| `htmlgen.exe` | HTML contest browser generator |
+
+Copy **both** files together with the `ChugWare/` data folder to the target machine. The app stores its config in `~/.chugware/chugware_config.json` and its contest data wherever the **Folder Path** setting points (default: a `ChugWare/` sub-folder next to the executable).
+
+---
+
+### 13.1 Windows
+
+#### Install
+
+1. Create an installation folder, e.g. `C:\Program Files\ChugWare2\`.
+2. Copy `ChugWare2.exe`, `htmlgen.exe`, and the `ChugWare\` data folder into it.
+3. (Optional) Copy any contest images / diploma templates into the matching sub-folders.
+
+#### Desktop shortcut (GUI)
+
+1. Open **File Explorer** and navigate to `C:\Program Files\ChugWare2\`.
+2. Right-click `ChugWare2.exe` → **Send to** → **Desktop (create shortcut)**.
+3. The shortcut appears on the Desktop. Right-click it → **Properties** to:
+   - Change the **icon** (point it to `ChugWare2.exe` and pick the embedded icon).
+   - Set **Start in** to `C:\Program Files\ChugWare2\` (important — the app looks for the `ChugWare\` folder relative to the working directory).
+
+#### Desktop shortcut (PowerShell)
+
+```powershell
+$WshShell = New-Object -ComObject WScript.Shell
+$Shortcut = $WshShell.CreateShortcut("$env:USERPROFILE\Desktop\ChugWare2.lnk")
+$Shortcut.TargetPath   = "C:\Program Files\ChugWare2\ChugWare2.exe"
+$Shortcut.WorkingDirectory = "C:\Program Files\ChugWare2"
+$Shortcut.Description  = "ChugWare2 Contest Management"
+$Shortcut.Save()
+```
+
+Run the snippet once in PowerShell — the shortcut is created immediately.
+
+#### Windows Defender / SmartScreen
+
+Because the binary is unsigned, Windows may show a **SmartScreen** warning on first launch. Click **More info → Run anyway**. To suppress this for all users on the machine, right-click `ChugWare2.exe` → **Properties** → tick **Unblock** → **OK**.
+
+---
+
+### 13.2 Linux
+
+#### Install
+
+```bash
+# Create install directory
+sudo mkdir -p /opt/chugware2
+
+# Copy binaries (built on Linux: no .exe extension)
+sudo cp ChugWare2 htmlgen /opt/chugware2/
+sudo chmod +x /opt/chugware2/ChugWare2 /opt/chugware2/htmlgen
+
+# Copy existing contest data if migrating
+sudo cp -r ChugWare /opt/chugware2/
+```
+
+> **Note:** Fyne requires a display server. On a headless server the app will not run. On a desktop Linux install (X11 or Wayland) no extra dependencies are needed beyond standard system libraries.
+
+#### Desktop shortcut (.desktop file)
+
+Create a `.desktop` launcher so ChugWare2 appears in your application menu and can be pinned to the desktop:
+
+```bash
+cat > ~/.local/share/applications/chugware2.desktop << 'EOF'
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=ChugWare2
+Comment=Contest Management System
+Exec=/opt/chugware2/ChugWare2
+Path=/opt/chugware2
+Icon=/opt/chugware2/ChugWare2
+Terminal=false
+Categories=Utility;
+EOF
+
+# Make it executable
+chmod +x ~/.local/share/applications/chugware2.desktop
+
+# Refresh the application database
+update-desktop-database ~/.local/share/applications/ 2>/dev/null || true
+```
+
+To also place a copy on the **Desktop**:
+
+```bash
+cp ~/.local/share/applications/chugware2.desktop ~/Desktop/
+chmod +x ~/Desktop/chugware2.desktop
+```
+
+On GNOME you may need to right-click the desktop file → **Allow Launching** the first time.
+
+---
+
+### 13.3 macOS
+
+#### Install
+
+macOS requires a window manager and uses `.app` bundles, but since Fyne produces a plain Unix binary you can run it directly from a terminal or wrap it in a minimal app bundle.
+
+**Simple install (terminal only):**
+
+```bash
+mkdir -p ~/Applications/ChugWare2
+cp ChugWare2 htmlgen ~/Applications/ChugWare2/
+chmod +x ~/Applications/ChugWare2/ChugWare2
+cp -r ChugWare ~/Applications/ChugWare2/
+```
+
+**Minimal `.app` bundle** (enables Dock icon and Spotlight):
+
+```bash
+APP=~/Applications/ChugWare2.app
+mkdir -p "$APP/Contents/MacOS"
+mkdir -p "$APP/Contents/Resources"
+
+# Binary
+cp ChugWare2 "$APP/Contents/MacOS/ChugWare2"
+chmod +x "$APP/Contents/MacOS/ChugWare2"
+
+# Minimal Info.plist
+cat > "$APP/Contents/Info.plist" << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>CFBundleName</key>        <string>ChugWare2</string>
+  <key>CFBundleExecutable</key>  <string>ChugWare2</string>
+  <key>CFBundleIdentifier</key>  <string>com.chugware2.contest</string>
+  <key>CFBundleVersion</key>     <string>1.0.0</string>
+  <key>CFBundlePackageType</key> <string>APPL</string>
+  <key>NSHighResolutionCapable</key><true/>
+</dict></plist>
+EOF
+```
+
+#### Desktop shortcut / Dock pin
+
+1. Open **Finder**, navigate to **Applications**.
+2. Double-click `ChugWare2.app` to launch it.
+3. The icon appears in the Dock while running — right-click it → **Options** → **Keep in Dock**.
+
+> **Gatekeeper warning:** On first launch macOS may block an unsigned binary. Go to **System Settings → Privacy & Security → Security** and click **Open Anyway** next to the ChugWare2 entry. Alternatively run once with: `xattr -cr ~/Applications/ChugWare2.app && open ~/Applications/ChugWare2.app`
+
+#### Working directory
+
+When launched from the Dock or Finder the working directory defaults to `~`. Set it explicitly in the `.app` wrapper or ensure your **Folder Path** in Configuration uses an absolute path so the `ChugWare/` data folder is always found correctly.
