@@ -166,16 +166,98 @@ Two methods are available:
 
 After loading, the **Current Chugger** card shows the participant's name, program, team, and remaining tries for the selected discipline.
 
-### 5.4 The Timer
+### 5.4 The Timer – Three Timing Methods
 
-| Button | Action |
-|---|---|
-| **Ready Check** | Confirms the participant is ready. Enables the Start button. |
-| **Start** | Starts the stopwatch from zero. |
-| **Stop** | Stops the stopwatch and locks the elapsed time into the **Base Time** field. Also decrements the participant's try count by 1 and saves it. Enables Pass / DQ buttons. |
-| **Reset** | Resets the timer and clears the result form. Re-enables Load Next Chugger. |
+ChugWare supports three independent ways to capture a participant's time. Choose the method that fits your setup before the first attempt; you can switch between runs but not mid-attempt.
 
-> After clicking **Stop** the Base Time field is filled automatically with the stopped time. Do not edit it unless you have a correction to make.
+---
+
+#### Method A – Internal GUI Stopwatch (default)
+
+The built-in software stopwatch. No hardware required.
+
+**Setup:** No setup needed. The **Use External Clock** button must show no checkmark (default state).
+
+**Per-attempt workflow:**
+
+| Step | Button | What happens |
+|---|---|---|
+| 1 | **Ready Check** | Confirm the participant is ready. Enables the **Start** button. |
+| 2 | **Start** | Stopwatch begins counting from `00:00:00.0000`. |
+| 3 | **Stop** | Stopwatch freezes. Elapsed time is written into **Base Time** automatically. Try count decremented by 1 and saved. Pass / DQ action buttons are enabled. |
+| 4 | *(record result)* | See Section 5.5 / 5.6 for pass and DQ flows. |
+| 5 | **Reset** | Clears the timer and result form. Re-enables Load Next Chugger. Use this if you need to restart an attempt before recording a result. |
+
+> **Note:** Reset does **not** decrement a try and does **not** save any result. Only Stop triggers a try decrement.
+
+---
+
+#### Method B – External Hardware Clock
+
+A serial/USB timing device (e.g. a dedicated sports timer, an Arduino emitting time strings, or a PC running minicom piped over a COM port) sends time strings to ChugWare via a serial port. ChugWare parses any `HH:MM:SS` or `HH:MM:SS.mmmm` pattern it receives.
+
+**One-time setup (do this before the contest):**
+
+1. Plug the timing device into the PC.
+2. Open **Configuration** from the Main Menu.
+3. In the **External Equipment** section:
+   - Set **Serial Port** to the port name (e.g. `COM3` on Windows, `/dev/ttyUSB0` on Linux).
+   - Set **Baud Rate** to match the device (default `9600`; common values: `4800`, `9600`, `19200`, `115200`).
+4. Click **Connect**. The status label changes to `✓ Connected – COM3`.
+5. Optionally click **Show Log Window** (accessible from Configuration) to see the raw data stream from the device and verify time strings are being received correctly.
+6. Click **Save** in Configuration to persist the port settings.
+
+**Activating external clock in Chug Manager:**
+
+1. Open **Chug Manager**.
+2. Click **Use External Clock**. The button label changes to `✓ Using External Clock`.
+   - If the device is not connected yet, an error dialog will appear when you press Start. Connect the device in Configuration first.
+3. Click it again at any time to switch back to the internal stopwatch (`Use External Clock` label restored).
+
+**Per-attempt workflow:**
+
+| Step | Button | What happens |
+|---|---|---|
+| 1 | **Ready Check** | Confirms participant ready. Enables Start. |
+| 2 | **Start** | ChugWare subscribes to the external clock channel. The timer display updates in real time from the device's transmitted values. |
+| 3 | **Stop** | Unsubscribes from the clock channel. The **last received time string** is written into **Base Time** automatically. Try count decremented and saved. Pass / DQ buttons enabled. |
+| 4 | *(record result)* | Identical to Method A from this point on. |
+
+> **Tip:** Keep the **External Clock – Live Logs** window open on a second monitor during the contest to verify the device is transmitting correctly. Each received line is shown there in real time.
+
+> **Fallback:** If the device disconnects mid-attempt, the last value received before disconnection is used as the base time when Stop is pressed. If nothing was received, Base Time will be empty and you will need to enter the time manually.
+
+---
+
+#### Method C – Fully Manual Time Entry
+
+Use this when no timer is run at all — for example when reading times from a paper sheet, an external results board, or when correcting a prior contest session.
+
+**Per-attempt workflow:**
+
+1. Load the participant (do **not** start the timer).
+2. Optionally click **Ready Check** (required to enable the **Enter Result Manually** button).
+3. Fill in the time fields directly:
+   - **Base Time** – the raw measured time (e.g. `23.540` for 23.54 seconds, or `1:03.200` for 1 min 3.2 s). See [Section 10](#10-time-format-reference) for accepted formats.
+   - **Additional Time** – any penalty time, or leave blank for zero.
+   - **Time** – if you already know the final combined time you can enter it here directly and leave Base/Additional blank. The Time field takes priority over the sum of Base + Additional.
+4. Set the **Status** dropdown to `Pass` or `Disqualified`.
+5. Add a **Comment** if needed.
+6. Click **Enter Result Manually**.
+
+> The **Calculate Final Time** button lets you preview `Base + Additional` in the Time field before committing. The Time field locks after Calculate is used — to unlock it, click **Reset**.
+
+---
+
+#### Timing Method Comparison
+
+| | Internal Timer | External Clock | Manual Entry |
+|---|---|---|---|
+| Hardware needed | None | Serial/USB device | None |
+| Setup | None | Configure port + connect in Configuration | None |
+| Base Time auto-filled | Yes (at Stop) | Yes (last received value at Stop) | No — you type it |
+| Try count decremented | At Stop | At Stop | At Enter Result Manually (if timer never ran) |
+| Best for | Most contests | High-accuracy timing hardware | Corrections / paper results |
 
 ### 5.5 Recording a Bottle Result
 
@@ -261,14 +343,17 @@ Use **Skip Participant** when you need to temporarily defer a loaded participant
 - The skipped participant will appear in the list again for the next load.
 - **Clear Skipped** resets the internal skip log (does not remove participants from the event).
 
-### 5.11 External Clock Mode
+### 5.11 External Clock – Troubleshooting
 
-If a hardware timing device is connected via serial port:
+| Problem | Likely cause | Fix |
+|---|---|---|
+| "External clock is not connected" error on Start | Device not connected or port wrong | Open Configuration → set correct port → click Connect |
+| Timer display doesn't move after Start | Device connected but not sending data, or baud rate mismatch | Check the Live Logs window; verify baud rate matches device |
+| Base Time is empty after Stop | No time string was received before Stop was pressed | Enter the time manually in the Base Time field |
+| Time values look garbled in logs | Baud rate mismatch | Adjust baud rate in Configuration to match the device spec |
+| Port not listed / can't open COM3 | Driver not installed or port in use by another app | Install device driver; close any other serial terminal (minicom, PuTTY, etc.) |
 
-1. Configure the serial port and baud rate in **Configuration** (see Section 7).
-2. In Chug Manager click **Use External Clock**. The button label toggles to **Use Internal Clock** to indicate external mode is active.
-3. The timer display will update from the hardware clock signal instead of the internal stopwatch.
-4. Stop/reset behaviour is identical to internal clock mode.
+The external clock parser accepts any line containing a pattern matching `H:MM:SS` or `H:MM:SS.mmmm`. If your device emits lines like `TIME=0:23.540` the value `0:23.540` will be extracted automatically.
 
 ---
 
@@ -301,15 +386,48 @@ If a hardware timing device is connected via serial port:
 
 **Purpose:** Set file paths and hardware device settings that persist across sessions.
 
+Open via Main Menu → **Configuration**.
+
+### 7.1 Path Settings
+
 | Setting | Description |
 |---|---|
-| **Folder Path** | Top-level ChugWare directory (where contest sub-folders are created). |
-| **Participant File** | Path to the active `participants.json`. Set automatically by Contest Wizard. |
-| **Result File** | Path to the active `results.json`. Set automatically by Contest Wizard. |
-| **External Clock Port** | Serial port name (e.g. `COM3` on Windows, `/dev/ttyUSB0` on Linux). |
-| **External Clock Baud** | Baud rate of the serial clock (e.g. `9600`). |
+| **Folder Path** | Top-level ChugWare directory (where contest sub-folders are created). Use the **Browse** button to select. |
+| **Current Contest Folder** | Read-only. Shows the active contest path set by Contest Wizard. |
 
-Changes are saved to `~/.chugware/chugware_config.json` and take effect immediately.
+### 7.2 File Settings
+
+| Setting | Description |
+|---|---|
+| **Participant File** | Path to `participants.json`. Set automatically by Contest Wizard; override here if needed. |
+| **Result File** | Path to `results.json`. Set automatically by Contest Wizard. |
+| **Template File** | Path to the diploma/report template. |
+
+### 7.3 External Equipment (Serial Clock)
+
+This section controls the hardware timing device used with [Method B – External Hardware Clock](#method-b--external-hardware-clock).
+
+| Setting | Description |
+|---|---|
+| **Serial Port** | Port name of the timing device. Windows: `COM1`–`COM99`. Linux/Mac: `/dev/ttyUSB0`, `/dev/ttyACM0`, etc. |
+| **Baud Rate** | Data rate of the serial connection. Must match the device's setting. Common values: `4800`, `9600`, `19200`, `38400`, `115200`. Default: `9600`. |
+| **Connect / Disconnect** | Opens or closes the serial port. Status shows `✓ Connected – COMx` when active. |
+| **Show Log Window** | Opens a floating window displaying every raw line received from the device. Use this to verify the device is sending readable time strings before starting the contest. |
+
+**Steps to connect an external clock:**
+
+1. Plug in the device.
+2. Enter the port name and baud rate.
+3. Click **Connect**. The status label turns green (`✓ Connected`).
+4. Click **Show Log Window** and confirm time strings appear (e.g. `0:00:03.540`).
+5. Click **Save** to persist the settings.
+6. In Chug Manager, click **Use External Clock** to activate it for the session.
+
+> The connection persists across window switches (Configuration → Chug Manager) as long as the app is running. If you close and reopen ChugWare you must reconnect.
+
+### 7.4 Saving Configuration
+
+Click **Save** at any time. Settings are written to `~/.chugware/chugware_config.json` and take effect immediately without restarting the app.
 
 ---
 
