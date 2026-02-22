@@ -9,9 +9,8 @@ import (
 
 const (
 	// Application Info
-	AppName    = "ChugWare"
-	AppVersion = "2.0.0"
-	Authors    = "Sigge McKvack, EKAK-2012 (Go Port by AI)"
+	AppName = "ChugWare2"
+	Authors = "Sigge McKvack, EKAK-2012 (Go Port by AI)"
 
 	// Directories
 	ImagesDirectory   = "images"
@@ -51,6 +50,10 @@ var (
 	// Global settings
 	Settings   models.ContestSettings
 	ConfigFile string
+
+	// AppVersion is set at start-up from the version package so that
+	// build-time ldflags injection is reflected everywhere in the UI.
+	AppVersion = "1.0.0"
 )
 
 // LoadConfig loads configuration from file or creates default

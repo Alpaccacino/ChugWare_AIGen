@@ -43,7 +43,7 @@ func writeConfigFile(t *testing.T, s models.ContestSettings) string {
 // ─────────────────────────────────────────────────────────────────────────────
 
 func TestConstants_ExpectedValues(t *testing.T) {
-	assert.Equal(t, "ChugWare", AppName)
+	assert.Equal(t, "ChugWare2", AppName)
 	assert.Equal(t, "No", NoKey)
 	assert.Equal(t, "Pass", Pass)
 	assert.Equal(t, "Disqualified", Disqualified)

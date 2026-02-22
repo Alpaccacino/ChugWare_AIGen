@@ -28,7 +28,7 @@ type MainWindow struct {
 func NewMainWindow(app fyne.App) *MainWindow {
 	mw := &MainWindow{
 		app:    app,
-		window: app.NewWindow("ChugWare - Contest Management System"),
+		window: app.NewWindow("ChugWare2 - Contest Management System"),
 	}
 
 	mw.setupUI()
@@ -74,7 +74,7 @@ func (mw *MainWindow) createMainMenu() *fyne.Container {
 	bg.FillMode = canvas.ImageFillContain
 
 	// Title
-	title := widget.NewLabel("ChugWare")
+	title := widget.NewLabel("ChugWare2")
 	title.Alignment = fyne.TextAlignCenter
 	title.TextStyle.Bold = true
 
@@ -170,12 +170,12 @@ func (mw *MainWindow) exitApplication() {
 
 func (mw *MainWindow) showAbout() {
 	content := widget.NewRichTextFromMarkdown(`
-# About ChugWare
+# About ChugWare2
 
 **Version:** ` + config.AppVersion + `  
 **Authors:** ` + config.Authors + `  
 
-ChugWare is a comprehensive contest management system for drinking competitions. 
+ChugWare2 is a comprehensive contest management system for drinking competitions. 
 
 ## Features
 - Contest setup and configuration
@@ -213,7 +213,7 @@ Built with Go and Fyne for cross-platform compatibility.
 
 func (mw *MainWindow) showHelp() {
 	content := widget.NewRichTextFromMarkdown(`
-# ChugWare Help
+# ChugWare2 Help
 
 ## Getting Started
 1. **Contest Wizard** - Set up a new contest

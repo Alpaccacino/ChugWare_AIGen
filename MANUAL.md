@@ -1,6 +1,6 @@
-# ChugWare – Operator Instruction Manual
+# ChugWare2 – Operator Instruction Manual
 
-Version 2.0 · Last updated 2026-02-22
+Version 1.0.0 · Last updated 2026-02-22
 
 ---
 
@@ -33,12 +33,13 @@ Version 2.0 · Last updated 2026-02-22
 9. [Participant Discipline Codes (the "322" format)](#9-participant-discipline-codes-the-322-format)
 10. [Time Format Reference](#10-time-format-reference)
 11. [Keyboard / Workflow Quick-Reference](#11-keyboard--workflow-quick-reference)
+12. [HTML Contest Browser (`htmlgen`)](#12-html-contest-browser-htmlgen)
 
 ---
 
 ## 1. Overview
 
-ChugWare is a contest management system for competitive chugging events. It handles:
+ChugWare2 is a contest management system for competitive chugging events. It handles:
 
 - Contest folder and file creation
 - Participant registration with per-discipline try counts
@@ -62,7 +63,7 @@ ChugWare is a contest management system for competitive chugging events. It hand
 
 ## 2. First-Time Setup
 
-1. Launch `chugware.exe`.
+1. Launch `ChugWare2.exe`.
 2. The app opens the **Main Menu** with six buttons.
 3. Click **Configuration** to verify (or set) the top-level contest folder path. The default is a `ChugWare/` folder next to the executable. See [Section 7](#7-configuration) for details.
 4. Once the folder path is correct you are ready to create a contest.
@@ -591,3 +592,116 @@ Disqualify + Measure Time
 - [ ] Switch disciplines and repeat
 - [ ] Open Finish Contest to review leaderboard
 - [ ] Generate Report and Diplomas
+- [ ] Run `htmlgen` to publish the web results browser
+
+---
+
+## 12. HTML Contest Browser (`htmlgen`)
+
+`htmlgen` is a standalone command-line tool (built alongside ChugWare2) that scans every contest folder in your ChugWare root directory and produces a single **self-contained HTML file** you can open in any browser — no internet connection required.
+
+### 12.1 What it generates
+
+- **Overview page** – cards for every contest showing date, official/unofficial status, total athletes, passes, and DQs.
+- **Per-contest page** – discipline tabs (Bottle, Half Tankard, Full Tankard, Bier Staphette, Mega Medley, Team Clash) each showing a ranked results table with medal icons (🥇🥈🥉) for top 3, colour-coded Pass/DQ pills, base time, and penalty time columns.
+- **Athletes panel** – every registered participant with their try counts.
+- **Sidebar navigation** – jump instantly between contests.
+
+### 12.2 Building ChugWare2 and `htmlgen`
+
+Use the provided `build.ps1` script (PowerShell) to build both executables with version metadata stamped in:
+
+```powershell
+.\build.ps1                    # builds 1.0.0 (default)
+.\build.ps1 -Version "1.1.0"  # override version
+```
+
+The script produces two executables and prints the stamped version, build date, and git commit:
+
+```
+=== ChugWare2 Build ===
+  Version   : 1.0.0
+  BuildDate : 2026-02-22
+  GitCommit : abc1234
+
+Building ChugWare2.exe ...
+  -> ChugWare2.exe
+Building htmlgen.exe ...
+  -> htmlgen.exe
+```
+
+The version is injected at link time via Go's `-ldflags` mechanism:
+```
+-X chugware/internal/version.Version=1.0.0
+-X chugware/internal/version.BuildDate=2026-02-22
+-X chugware/internal/version.GitCommit=abc1234
+```
+
+To build manually without the script:
+```powershell
+go build -ldflags "-X chugware/internal/version.Version=1.0.0" -o ChugWare2.exe ./cmd/
+go build -ldflags "-X chugware/internal/version.Version=1.0.0" -o htmlgen.exe ./cmd/htmlgen/
+```
+
+The stamped version appears in **Help → About** inside the application.
+
+### 12.3 Running `htmlgen`
+
+```
+htmlgen.exe [--root <ChugWare folder>] [--out <output file>]
+```
+
+| Flag | Default | Description |
+|---|---|---|
+| `--root` | `ChugWare` | Path to the ChugWare contests folder (relative or absolute). |
+| `--out` | `chugware_results.html` | Output HTML file path. |
+
+**Examples:**
+
+```powershell
+# Run from the project folder – uses the default ChugWare/ subfolder
+.\htmlgen.exe
+
+# Explicit paths
+.\htmlgen.exe --root C:\Contests\ChugWare --out C:\Shared\results.html
+
+# Linux / macOS
+./htmlgen --root ~/ChugWare --out ~/Desktop/results.html
+```
+
+Output:
+```
+Scanning contests in: C:\...\ChugWare
+Found 3 contest(s)
+HTML written to: C:\...\chugware_results.html
+```
+
+### 12.4 Viewing the results
+
+Double-click `chugware_results.html` (or the path you chose) to open it in your default browser. The file is fully self-contained — all CSS and JavaScript are embedded — so you can:
+
+- Copy it to a USB stick and open it on any PC.
+- Email it or upload it to a shared drive.
+- Drop it on a web server and share the URL.
+
+### 12.5 Keeping results up to date
+
+Re-run `htmlgen.exe` at any point during or after the contest to regenerate the file with the latest data. The tool always reads directly from the `results.json` files on disk, so it reflects whatever ChugWare has saved most recently.
+
+### 12.6 Contest folder detection
+
+`htmlgen` recognises sub-folders that follow the naming convention created by Contest Wizard:
+
+```
+<ContestName>_<YYYY-MM-DD>_Official
+<ContestName>_<YYYY-MM-DD>_Unofficial
+```
+
+Folders with any other naming pattern are skipped with a warning printed to the terminal. Contests are sorted newest-first in the browser.
+
+### 12.7 Results ordering
+
+Within each discipline tab:
+- **Pass** results are ranked by final time, fastest first (rank 1 = winner).
+- **DQ** results appear at the bottom of the table, unranked.
+- Top 3 places receive 🥇 🥈 🥉 medal icons.

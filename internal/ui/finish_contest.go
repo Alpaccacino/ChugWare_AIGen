@@ -650,7 +650,7 @@ func (fc *FinishContest) generateReport() {
 func (fc *FinishContest) createTextReport() string {
 	var report strings.Builder
 
-	report.WriteString("CHUGWARE CONTEST REPORT\n")
+	report.WriteString("CHUGWARE2 CONTEST REPORT\n")
 	report.WriteString("=" + strings.Repeat("=", 50) + "\n\n")
 
 	report.WriteString(fmt.Sprintf("Generated: %s\n", time.Now().Format("2006-01-02 15:04:05")))

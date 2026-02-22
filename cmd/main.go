@@ -11,6 +11,7 @@ import (
 	"chugware/internal/config"
 	"chugware/internal/resources"
 	"chugware/internal/ui"
+	"chugware/internal/version"
 )
 
 // customTheme extends the default theme to make placeholder text more visible
@@ -27,8 +28,12 @@ func (t *customTheme) Color(name fyne.ThemeColorName, variant fyne.ThemeVariant)
 }
 
 func main() {
+	// Propagate build-stamped version into the config package so all
+	// UI components (e.g. the About dialog) show the correct version.
+	config.AppVersion = version.Version
+
 	// Initialize application
-	myApp := app.NewWithID("com.chugware.contest")
+	myApp := app.NewWithID("com.chugware2.contest")
 
 	// Set the application icon (used in taskbar and – on supported platforms – the tray)
 	myApp.SetIcon(resources.CoolSigge)
@@ -53,8 +58,8 @@ func main() {
 	// Set up system tray (works on Windows, macOS and Linux desktop environments)
 	if desk, ok := myApp.(desktop.App); ok {
 		desk.SetSystemTrayIcon(resources.CoolSigge)
-		desk.SetSystemTrayMenu(fyne.NewMenu("ChugWare",
-			fyne.NewMenuItem("Open ChugWare", func() {
+		desk.SetSystemTrayMenu(fyne.NewMenu("ChugWare2",
+			fyne.NewMenuItem("Open ChugWare2", func() {
 				mainWindow.Window().Show()
 			}),
 			fyne.NewMenuItemSeparator(),
