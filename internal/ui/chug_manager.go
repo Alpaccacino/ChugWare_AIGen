@@ -140,6 +140,24 @@ func (cm *ChugManager) setupUI() {
 
 	// Initialize timer display
 	cm.updateTimerDisplay()
+
+	// Keyboard shortcuts: S = Start, P = Stop (pause).
+	// Ignored when a text entry field has focus so normal typing is unaffected.
+	cm.window.Canvas().SetOnTypedKey(func(key *fyne.KeyEvent) {
+		if _, focused := cm.window.Canvas().Focused().(*widget.Entry); focused {
+			return
+		}
+		switch key.Name {
+		case fyne.KeyS:
+			if !cm.startBtn.Disabled() {
+				cm.startTimer()
+			}
+		case fyne.KeyP:
+			if !cm.stopBtn.Disabled() {
+				cm.stopTimerFunc()
+			}
+		}
+	})
 }
 
 // createContestComponents creates contest selection components

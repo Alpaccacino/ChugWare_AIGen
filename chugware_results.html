@@ -178,7 +178,7 @@ tbody tr:hover{background:rgba(255,255,255,.03);}
 <header>
   <h1>🍺 ChugWare2</h1>
   <span style="color:var(--muted);font-size:.9rem;">Contest Browser</span>
-  <span class="header-sub">Generated 2026-02-22 09:16:08</span>
+  <span class="header-sub">Generated 2026-02-22 17:59:46</span>
 </header>
 
 <nav class="sidebar" id="sidebar">
@@ -209,9 +209,9 @@ tbody tr:hover{background:rgba(255,255,255,.03);}
       <h3>Contest</h3>
       <div class="ov-date">2026-02-22 · <span style="color:var(--accent)">Official</span></div>
       <div class="ov-statsrow">
-        <div class="ov-stat">Participants: <span>0</span></div>
-        <div class="ov-stat">Results: <span>0</span></div>
-        <div class="ov-stat" style="color:var(--pass)">Pass: <span>0</span></div>
+        <div class="ov-stat">Participants: <span>1</span></div>
+        <div class="ov-stat">Results: <span>1</span></div>
+        <div class="ov-stat" style="color:var(--pass)">Pass: <span>1</span></div>
         <div class="ov-stat" style="color:var(--dq)">DQ: <span>0</span></div>
       </div>
     </a>
@@ -234,27 +234,94 @@ tbody tr:hover{background:rgba(255,255,255,.03);}
       
     </div>
     <div class="stat-grid">
-      <div class="stat-card"><div class="val">0</div><div class="lbl">Athletes</div></div>
-      <div class="stat-card"><div class="val">0</div><div class="lbl">Results</div></div>
-      <div class="stat-card"><div class="val pass">0</div><div class="lbl">Pass</div></div>
+      <div class="stat-card"><div class="val">1</div><div class="lbl">Athletes</div></div>
+      <div class="stat-card"><div class="val">1</div><div class="lbl">Results</div></div>
+      <div class="stat-card"><div class="val pass">1</div><div class="lbl">Pass</div></div>
       <div class="stat-card"><div class="val dq">0</div><div class="lbl">DQ</div></div>
-      <div class="stat-card"><div class="val">0</div><div class="lbl">Disciplines</div></div>
+      <div class="stat-card"><div class="val">1</div><div class="lbl">Disciplines</div></div>
     </div>
   </div>
 
   
   
-    <div class="card"><div class="empty">No results recorded yet for this contest.</div></div>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="card-title">Results by Discipline</div>
+    <div style="padding:16px 16px 0;">
+      <div class="tab-bar" id="tabs-0">
+        
+        <button class="tab-btn active"
+          onclick="switchTab('tabs-0','tabcontent-0', 0 ,this)">
+          Bottle
+          <span style="opacity:.6;font-weight:400;margin-left:4px;">(1)</span>
+        </button>
+        
+      </div>
+    </div>
+    
+    <div class="tab-content active" id="tabcontent-0-0">
+      
+      <table>
+        <thead>
+          <tr>
+            <th style="width:50px;">Rank</th>
+            <th>Athlete</th>
+            <th>Program</th>
+            <th>Team</th>
+            <th>Time</th>
+            <th>Base</th>
+            <th>Penalty</th>
+            <th>Status</th>
+            <th>Comment</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+          <tr>
+            <td class="rank rank-1">
+              🥇
+            </td>
+            <td style="font-weight:600;">Sigge</td>
+            <td style="color:var(--muted);">N/A</td>
+            <td style="color:var(--muted);">N/A</td>
+            <td class="time">00:00:06.4101</td>
+            <td class="time" style="color:var(--muted);font-size:.82rem;">00:00:05.4101</td>
+            <td class="time-penalty">1</td>
+            <td>
+              
+                <span class="pill pill-pass">Pass</span>
+              
+            </td>
+            <td style="color:var(--muted);font-size:.82rem;"></td>
+          </tr>
+        
+        </tbody>
+      </table>
+      
+    </div>
+    
+  </div>
   
 
   
   <div class="card">
     <div class="card-title">
       Registered Athletes
-      <span class="count">0 total</span>
+      <span class="count">1 total</span>
     </div>
     
-    <div class="empty">No participants registered.</div>
+    <div class="part-grid">
+      
+      <div class="part-card">
+        <div class="pname">Sigge</div>
+        <div class="pinfo">N/A · N/A</div>
+        <div class="try-dots">
+          <span class="try-dot">🍶 2</span>
+          <span class="try-dot">🍺 2</span>
+          <span class="try-dot">🍻 2</span>
+        </div>
+      </div>
+      
+    </div>
     
   </div>
 
