@@ -508,10 +508,19 @@ func (pm *ParticipantManagerUI) getParticipantFromForm() *models.Participant {
 		return nil
 	}
 
+	program := strings.TrimSpace(pm.programEntry.Text)
+	if program == "" {
+		program = "N/A"
+	}
+	team := strings.TrimSpace(pm.teamEntry.Text)
+	if team == "" {
+		team = "N/A"
+	}
+
 	participant := &models.Participant{
 		Name:        name,
-		Program:     strings.TrimSpace(pm.programEntry.Text),
-		Team:        strings.TrimSpace(pm.teamEntry.Text),
+		Program:     program,
+		Team:        team,
 		Bottle:      string(disciplineStr[0]),
 		HalfTankard: string(disciplineStr[1]),
 		FullTankard: string(disciplineStr[2]),

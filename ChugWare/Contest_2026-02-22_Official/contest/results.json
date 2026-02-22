@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "additional_time": "1",
+    "base_time": "00:00:05.4101",
+    "comment": "",
+    "discipline": "Bottle",
+    "name": "Sigge",
+    "status": "Pass",
+    "time": "00:00:06.4101"
+  }
+]
