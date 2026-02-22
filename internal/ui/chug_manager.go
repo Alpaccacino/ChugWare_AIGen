@@ -787,7 +787,7 @@ func (cm *ChugManager) skipParticipant() {
 		return
 	}
 
-	// Track who was skipped (informational only; they remain in the lists)
+	// Add to skipped list so they are excluded from future auto-loads
 	cm.skippedParticipants = append(cm.skippedParticipants, *cm.currentChugger)
 
 	dialog.ShowInformation("Participant Skipped", fmt.Sprintf("Skipped: %s", cm.currentChugger.Name), cm.window)
@@ -796,6 +796,9 @@ func (cm *ChugManager) skipParticipant() {
 	cm.updateCurrentChuggerDisplay()
 	cm.clearResultForm()
 	cm.resetTimer()
+
+	// Rebuild the available list so the skipped participant is excluded
+	cm.loadAvailableParticipants()
 
 	// Re-enable the load button after skipping
 	cm.loadChuggerBtn.Enable()
@@ -808,7 +811,8 @@ func (cm *ChugManager) clearSkippedParticipants() {
 	}
 
 	cm.skippedParticipants = nil
-	cm.refreshLists()
+	// Rebuild available list so previously-skipped participants are loadable again
+	cm.loadAvailableParticipants()
 	dialog.ShowInformation("Cleared", "Skipped list has been cleared", cm.window)
 }
 
@@ -1207,6 +1211,21 @@ func (cm *ChugManager) loadAvailableParticipants() {
 				participantsForDiscipline = append(participantsForDiscipline, p)
 			}
 		}
+	}
+
+	// Exclude skipped participants
+	if len(cm.skippedParticipants) > 0 {
+		skippedNames := make(map[string]struct{}, len(cm.skippedParticipants))
+		for _, sp := range cm.skippedParticipants {
+			skippedNames[sp.Name] = struct{}{}
+		}
+		filtered := participantsForDiscipline[:0]
+		for _, p := range participantsForDiscipline {
+			if _, skipped := skippedNames[p.Name]; !skipped {
+				filtered = append(filtered, p)
+			}
+		}
+		participantsForDiscipline = filtered
 	}
 
 	cm.availableParticipants = participantsForDiscipline
